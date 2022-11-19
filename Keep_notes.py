@@ -1,19 +1,11 @@
 import mysql.connector
 import time
 
+# user_inp = input("Enter the USER NAME : ")
+# password_inp = input("Enter the PASSWORD : ")
 
-
-# mydb = .connect(host="127.0.0.1",user=user1,passwd=passwd,database='chat')
-    #  connecting to the server 
-
-
-user_inp = input("Enter the USER NAME : ")
-password_inp = input("Enter the PASSWORD : ")
-
-mydb = mysql.connector.connect(host='localhost',user=user_inp,passwd=password_inp)
+mydb = mysql.connector.connect(host='localhost',user='root',passwd='Root')
 mycur = mydb.cursor()
-# # creating cursor 
-# mycur.execute('create database if not exists chat')
 
 mycur.execute('select  day(now()),month(now()),year(now())')
 q = mycur.fetchall()
@@ -35,10 +27,7 @@ q2 = str(o2)
 q3 = str(o3)
 string1 = ""+q1+":"+q2+":"+q3+""
 
-
-
 while(True):
-    # cheaing for database existence 
     mycur.execute('show databases')
     show_databases = mycur.fetchall()
     if ('chat',) in show_databases:
@@ -46,44 +35,27 @@ while(True):
         time.sleep(0.25)
         print("Welcome to KEEP NOTES")
 
-        
         while(True):
-            # function string for cheaking for delete code 
             notes = input("Note : ")
             
-            
-            # function for temp time and date 
             datex = str(string)
             timex = str(string1)
             time_date = ""+datex+"   "+timex+" > "
             
-           
-
             if(notes == "delete" ):
                 print('Entered in delete')
-                tim_input = input("Enter the time (hour:minute:second): ")
-                date_input = input("Enter the date (dd/mm/yyyy): ")
-                time_date_delete_function = ""+date_input+"   "+tim_input+" > "
-                print(time_date_delete_function)
-                quarry_dlete_function = 'delete from chat_base where time = "'+ time_date_delete_function+'"'
+                delete_function = input("Enter the sr_no : ")
+                print(delete_function)
+                quarry_dlete_function = 'delete from chat_base where sr_no = "'+delete_function+'"'
                 mycur.execute(quarry_dlete_function)
                 print("Deleted sucessfully")
                 mydb.commit()
                 
             elif(notes != "exit"):
                 if(notes == "show"):
+
                     
                     mycur.execute('select time from chat_base')
-
-                    TIME_INPUT = mycur.fetchall()
-
-                    length = len(TIME_INPUT)
-
-                    mycur.execute('use chat')
-
-
-                    mycur.execute('select time from chat_base')
-
                     TIME_INPUT = mycur.fetchall()
 
                     length = len(TIME_INPUT)
@@ -92,27 +64,22 @@ while(True):
                         print("No Notes found....")
                         continue
 
-                    print(' sr no     Date time         note    ')
+                    print('sr no    Date time                 note    ')
                     list_of_msg = []
                     list_of_time  = []
 
                     for i in range(0,length):
-                        
-                        # mydb = mysql.connector.connect(host='localhost',user=user_inp,passwd=password_inp ,database='chat')
-                        # mycur = mydb.cursor()
-                        mycur.execute('select time from chat_base')
+                        mycur.execute('select sr_no from chat_base')
+                        sr_no_all = mycur.fetchall()
 
-                        TIME_INPUT = mycur.fetchall()
-                        # print(TIME_INPUT)
                         mycur.execute('select note from chat_base')
                         note_fetch_all = mycur.fetchall()
-                        # print(note_fetch_all)
+                        
+                        c = str(sr_no_all[i][0])
                         a = TIME_INPUT[i][0]
-                        # print(a)
-
                         b = note_fetch_all[i][0]
-                        # print(b)    
-                        fun = ""+a+"    "+b+""
+                        
+                        fun = ""+c+"        "+a+"  "+b+""
                         print(fun)
                 
                 else:
@@ -127,15 +94,15 @@ while(True):
                 exit()
 
     else:
-
-        # createing databases
         mycur.execute("create database chat")
+        
         time.sleep(0.25)
         print("Database Created")
-        # using databases
+        
         mycur.execute('use chat')
-        # created table 
+         
         mycur.execute('create table chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000))')
         time.sleep(0.25)
+        
         print("Chat created successfully")
-        # exit()
+        
