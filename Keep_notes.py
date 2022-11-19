@@ -1,7 +1,5 @@
 import mysql.connector
 import time
-import date_time_by_HR
-# import testing
 
 
 
@@ -17,7 +15,25 @@ mycur = mydb.cursor()
 # # creating cursor 
 # mycur.execute('create database if not exists chat')
 
+mycur.execute('select  day(now()),month(now()),year(now())')
+q = mycur.fetchall()
+i1 = q[0][0]
+i2 = q[0][1]
+i3 = q[0][2]
+a = str(i1)
+b = str(i2)
+c = str(i3)
+string = ""+a+"/"+b+"/"+c+""
 
+mycur.execute('select hour(now()),minute(now()),second(now())')
+x = mycur.fetchall()
+o1 = x[0][0]
+o2 = x[0][1]
+o3 = x[0][2]
+q1 = str(o1)
+q2 = str(o2)
+q3 = str(o3)
+string1 = ""+q1+":"+q2+":"+q3+""
 
 
 
@@ -37,8 +53,8 @@ while(True):
             
             
             # function for temp time and date 
-            datex = str(date_time_by_HR.date1())
-            timex = str(date_time_by_HR.time1())
+            datex = str(string)
+            timex = str(string1)
             time_date = ""+datex+"   "+timex+" > "
             
            
