@@ -48,7 +48,7 @@ while(True):
                 print(delete_function)
                 quarry_dlete_function = 'delete from chat_base where sr_no = "'+delete_function+'"'
                 mycur.execute(quarry_dlete_function)
-                print("Deleted sucessfully")
+                print("Deleted the note if the given sr no is valid")
                 mydb.commit()
                 
             elif(notes != "exit"):
@@ -82,8 +82,16 @@ while(True):
                         fun = ""+c+"        "+a+"  "+b+""
                         print(fun)
                 
+                elif(notes == "update"):
+                    print('Welcome to update section')
+                    user_inp = input("Enter the sr no : ")
+                    new_note = input ("Enter the new note ")
+                    mycur.execute('update chat_base set up_date_status="Edited",note ="'+new_note+'" where sr_no= "'+user_inp+'"')
+                    mydb.commit()
+                    print('Notes are updated if the given sr no is valid ')
+                                
                 else:
-                    insert_into = 'insert into chat_base(time,note) value(%s,%s)'
+                    insert_into = 'insert into chat_base(time,note,up_date_status) value(%s,%s,"Orignal")'
                     val = [time_date,notes]
                     mycur.execute(insert_into,val)
                     mydb.commit()
@@ -101,8 +109,7 @@ while(True):
         
         mycur.execute('use chat')
          
-        mycur.execute('create table chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000))')
+        mycur.execute('create table chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000),up_date_status varchar (10))')
         time.sleep(0.25)
         
         print("Chat created successfully")
-        
