@@ -1,18 +1,10 @@
 '''
-
-
-
-
-
 programe by MrUnKnown9871
 python programe for school 
 
 ALL PROGRAMES ARE COPYRIGHTED TILL THE SESSION END 
 
 USE THIS PROGRAME FOR EDUCATIONAL PUROPSE ONLY 
-
-
-
 '''
 # importing module 
 # mysql.connector for storing notes 
@@ -56,99 +48,169 @@ x = mycur.fetchall()
 o1 = x[0][0]
 o2 = x[0][1]
 o3 = x[0][2]
+
+# converting string from data
 q1 = str(o1)
 q2 = str(o2)
 q3 = str(o3)
+
+# merged string for time 
 string1 = ""+q1+":"+q2+":"+q3+""
 
+# main void loop
+
 while(True):
+    # collecting all databases
     mycur.execute('show databases')
     show_databases = mycur.fetchall()
+    # stored result in show_databases
+    
+    # if database exists in the 
     if ('chat',) in show_databases:
+        # added late if user may mess up with mysql command line 
+        mycur.execute('create table if not exists chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000),up_date_status varchar (10))')
+        # using databse chat
         mycur.execute('use chat')
+        
+        # delay is given for proframe loding time 
         time.sleep(0.25)
-        print("Welcome to KEEP NOTES")
 
+        # printing welcome fuction
+        print("Welcome to KEEP NOTES")
+        # notes quarry loop
+        
         while(True):
+            # taking note in input
+            
             notes = input("Note : ")
+            # stored datex (date function)
             
             datex = str(string)
-            timex = str(string1)
-            time_date = ""+datex+"   "+timex+" > "
+            # stored timex (time function)
             
+            timex = str(string1)
+            # storing string for giving input 
+            
+            time_date = ""+datex+"   "+timex+" > "
+            # delete function of note 
+
             if(notes == "delete" ):
+                #conformation of deleteing function
                 print('Entered in delete')
+                # taking seriol number in input 
                 delete_function = input("Enter the sr_no : ")
+                # printing deleted seriol number
                 print(delete_function)
+                #delet function quarry
                 quarry_dlete_function = 'delete from chat_base where sr_no = "'+delete_function+'"'
+                # finally quarry deleted 
                 mycur.execute(quarry_dlete_function)
+                # deleting conformation statement
                 print("Deleted the note if the given sr no is valid")
                 mydb.commit()
-                
+            
+            # not exit function    
             elif(notes != "exit"):
+                # printing notes
                 if(notes == "show"):
-
-                    
+                    # extrexting recorded time of notes 
                     mycur.execute('select time from chat_base')
                     TIME_INPUT = mycur.fetchall()
-
+                    # stored as time_input in lsit 
+                    
                     length = len(TIME_INPUT)
-
+                    # finding the length
+                    # if length is zero nothing is printed 
+                    
                     if length==0 :
                         print("No Notes found....")
                         continue
-
+                    
+                    # template of output formate 
                     print('sr no    Date time                 note    ')
-                    list_of_msg = []
-                    list_of_time  = []
-
+                    # printing notes 
+                    
                     for i in range(0,length):
+                        # extracting all sr no 
                         mycur.execute('select sr_no from chat_base')
                         sr_no_all = mycur.fetchall()
-
+                        # dtored sr no 
+                        #extracting all notes  
                         mycur.execute('select note from chat_base')
                         note_fetch_all = mycur.fetchall()
-                        
+                        # stored all notes 
+
+                        # variableise all using i from for loop
                         c = str(sr_no_all[i][0])
                         a = TIME_INPUT[i][0]
                         b = note_fetch_all[i][0]
-                        
+                        # funis a variable displaying the records 
                         fun = ""+c+"        "+a+"  "+b+""
                         print(fun)
-                
+
+                # notes update function
                 elif(notes == "update"):
+                    # conformation msg for 
                     print('Welcome to update section')
+                    
+                    # taking user input (sr no)
                     user_inp = input("Enter the sr no : ")
+
+                    # taking new note
                     new_note = input ("Enter the new note ")
+                    
+                    # updating function
                     mycur.execute('update chat_base set up_date_status="Edited",note ="'+new_note+'" where sr_no= "'+user_inp+'"')
                     mydb.commit()
+
+                    # serious msg
                     print('Notes are updated if the given sr no is valid ')
 
+                # note root function
                 elif(notes == "localhost config --root -p "+password_inp+""):
-                    mycur.execute('select * from chat_base')
-                    storage = mycur.fetchall()
-                    print(storage)
                     
+                    # selecting all data
+                    mycur.execute('select * from chat_base')
+                    
+                    #storing all data
+                    storage = mycur.fetchall()
+
+                    # printing record 
+                    for i in range(len(storage)):
+                        
+                        #printing record line by line  
+                        print(storage[i])
+
+                #inpput is given and stored in database     
                 else:
+
+                    # insert quarry
                     insert_into = 'insert into chat_base(time,note,up_date_status) value(%s,%s,"Orignal")'
                     val = [time_date,notes]
                     mycur.execute(insert_into,val)
                     mydb.commit()
-                    
-                    
-
+            
+            # not exit else function to exit 
             else:
+                #exit
                 exit()
-
+    # else of not having database 
     else:
+        #creating database
         mycur.execute("create database chat")
-        
+        #delay 
         time.sleep(0.25)
+        
+        #database create conformation statement
         print("Database Created")
         
+        # using chat database to craete table 
         mycur.execute('use chat')
-         
-        mycur.execute('create table chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000),up_date_status varchar (10))')
-        time.sleep(0.25)
         
+        # created table 
+        mycur.execute('create table chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000),up_date_status varchar (10))')
+        
+        #delay
+        time.sleep(0.25)
+        #table craeted success mag
         print("Chat created successfully")
