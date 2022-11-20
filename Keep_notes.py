@@ -1,10 +1,18 @@
 '''
+
+
+
+
+
 programe by MrUnKnown9871
 python programe for school 
 
 ALL PROGRAMES ARE COPYRIGHTED TILL THE SESSION END 
 
 USE THIS PROGRAME FOR EDUCATIONAL PUROPSE ONLY 
+
+
+
 '''
 # importing module 
 # mysql.connector for storing notes 
