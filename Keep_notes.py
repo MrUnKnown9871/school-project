@@ -1,24 +1,50 @@
+'''
+programe by MrUnKnown9871
+python programe for school 
+
+ALL PROGRAMES ARE COPYRIGHTED TILL THE SESSION END 
+
+USE THIS PROGRAME FOR EDUCATIONAL PUROPSE ONLY 
+'''
+# importing module 
+# mysql.connector for storing notes 
+# time is used for giving delay so the programe may not crash after future updates
 import mysql.connector
 import time
 
+# taking user input for local NOTES repositories
 user_inp = input("Enter the USER NAME : ")
 password_inp = input("Enter the PASSWORD : ")
 
+# connecting to the localhost server of mysql
 mydb = mysql.connector.connect(host='localhost',user=user_inp,passwd=password_inp)
+# creating a cursor called mycur
 mycur = mydb.cursor()
 
+# creating a date in string using mysql quarry for practice
 mycur.execute('select  day(now()),month(now()),year(now())')
 q = mycur.fetchall()
+# stored all result in q
+
+# extracting date month and year
 i1 = q[0][0]
 i2 = q[0][1]
 i3 = q[0][2]
+
+# convering all in string
 a = str(i1)
 b = str(i2)
 c = str(i3)
+
+# merged string  for date
 string = ""+a+"/"+b+"/"+c+""
 
+# creating time function using mysql quarry
 mycur.execute('select hour(now()),minute(now()),second(now())')
 x = mycur.fetchall()
+# stored result in x 
+
+# extracting housr minute and second
 o1 = x[0][0]
 o2 = x[0][1]
 o3 = x[0][2]
