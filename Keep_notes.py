@@ -1,10 +1,10 @@
 import mysql.connector
 import time
 
-# user_inp = input("Enter the USER NAME : ")
-# password_inp = input("Enter the PASSWORD : ")
+user_inp = input("Enter the USER NAME : ")
+password_inp = input("Enter the PASSWORD : ")
 
-mydb = mysql.connector.connect(host='localhost',user='root',passwd='Root')
+mydb = mysql.connector.connect(host='localhost',user=user_inp,passwd=password_inp)
 mycur = mydb.cursor()
 
 mycur.execute('select  day(now()),month(now()),year(now())')
@@ -89,7 +89,12 @@ while(True):
                     mycur.execute('update chat_base set up_date_status="Edited",note ="'+new_note+'" where sr_no= "'+user_inp+'"')
                     mydb.commit()
                     print('Notes are updated if the given sr no is valid ')
-                                
+
+                elif(notes == "localhost config --root -p "+password_inp+""):
+                    mycur.execute('select * from chat_base')
+                    storage = mycur.fetchall()
+                    print(storage)
+                    
                 else:
                     insert_into = 'insert into chat_base(time,note,up_date_status) value(%s,%s,"Orignal")'
                     val = [time_date,notes]
