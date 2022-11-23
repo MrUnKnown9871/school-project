@@ -68,9 +68,9 @@ while(True):
     # if database exists in the 
     if ('chat',) in show_databases:
         # added late if user may mess up with mysql command line 
-        mycur.execute('create table if not exists chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000),up_date_status varchar (10))')
         # using databse chat
         mycur.execute('use chat')
+        mycur.execute('create table if not exists chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000),up_date_status varchar (10))')
         
         # delay is given for proframe loding time 
         time.sleep(0.25)
@@ -167,7 +167,7 @@ while(True):
                     print('Notes are updated if the given sr no is valid ')
 
                 # note root function
-                elif(notes == "localhost config --root -p "+password_inp+""):
+                elif(notes == "history"):
                     
                     # selecting all data
                     mycur.execute('select * from chat_base')
@@ -181,7 +181,35 @@ while(True):
                         #printing record line by line  
                         print(storage[i])
 
-                #inpput is given and stored in database     
+                #inpput is given and stored in database
+                elif(notes == "report"):
+                    starting_date = input("Enter starting date : ")
+                    ending_date = input("Ending date : ")
+                    print('........Report ......')
+                    print("")
+                    # lakhu chu user input thi data reportprint 
+                    print("Enter the ")
+                    print('sr no    Date time                 note    ')
+                    for i in range(0,length):
+                        mycur.execute('select time from chat_base where date like "%'++'%"')
+                        TIME_INPUT = mycur.fetchall()
+                        # extracting all sr no 
+                        mycur.execute('select sr_no from chat_base')
+                        sr_no_all = mycur.fetchall()
+                        # dtored sr no 
+                        #extracting all notes  
+                        mycur.execute('select note from chat_base')
+                        note_fetch_all = mycur.fetchall()
+                        # stored all notes 
+
+                        # variableise all using i from for loop
+                        c = str(sr_no_all[i][0])
+                        a = TIME_INPUT[i][0]
+                        b = note_fetch_all[i][0]
+                        # funis a variable displaying the records 
+                        report = ""+c+"        "+a+"  "+b+""
+                        print(report)
+                    
                 else:
 
                     # insert quarry
