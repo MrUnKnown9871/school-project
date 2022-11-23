@@ -59,6 +59,18 @@ string1 = ""+q1+":"+q2+":"+q3+""
 
 # main void loop
 
+#  all exicute function for for loop
+# extracting all sr no 
+mycur.execute('select sr_no from chat_base')
+sr_no_all = mycur.fetchall()
+                        # dtored sr no 
+                        #extracting all notes  
+mycur.execute('select note from chat_base')
+note_fetch_all = mycur.fetchall()
+                        # stored all notes 
+mycur.execute('select time from chat_base')
+TIME_INPUT = mycur.fetchall()
+
 while(True):
     # collecting all databases
     mycur.execute('show databases')
@@ -114,8 +126,7 @@ while(True):
                 # printing notes
                 if(notes == "show"):
                     # extrexting recorded time of notes 
-                    mycur.execute('select time from chat_base')
-                    TIME_INPUT = mycur.fetchall()
+                    
                     # stored as time_input in lsit 
                     
                     length = len(TIME_INPUT)
@@ -131,14 +142,7 @@ while(True):
                     # printing notes 
                     
                     for i in range(0,length):
-                        # extracting all sr no 
-                        mycur.execute('select sr_no from chat_base')
-                        sr_no_all = mycur.fetchall()
-                        # dtored sr no 
-                        #extracting all notes  
-                        mycur.execute('select note from chat_base')
-                        note_fetch_all = mycur.fetchall()
-                        # stored all notes 
+                        
 
                         # variableise all using i from for loop
                         c = str(sr_no_all[i][0])
@@ -191,17 +195,6 @@ while(True):
                     print("Enter the ")
                     print('sr no    Date time                 note    ')
                     for i in range(0,length):
-                        mycur.execute('select time from chat_base where date like "%'++'%"')
-                        TIME_INPUT = mycur.fetchall()
-                        # extracting all sr no 
-                        mycur.execute('select sr_no from chat_base')
-                        sr_no_all = mycur.fetchall()
-                        # dtored sr no 
-                        #extracting all notes  
-                        mycur.execute('select note from chat_base')
-                        note_fetch_all = mycur.fetchall()
-                        # stored all notes 
-
                         # variableise all using i from for loop
                         c = str(sr_no_all[i][0])
                         a = TIME_INPUT[i][0]
