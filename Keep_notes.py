@@ -16,6 +16,8 @@ import time
 user_inp = input("Enter the USER NAME : ")
 password_inp = input("Enter the PASSWORD : ")
 
+
+print('all oprations in lower case else stored in note')
 # connecting to the localhost server of mysql
 mydb = mysql.connector.connect(host='localhost',user=user_inp,passwd=password_inp)
 # creating a cursor called mycur
@@ -90,14 +92,7 @@ while(True):
             notes = input("Note : ")
             # stored datex (date function)
             
-            datex = str(string)
-            # stored timex (time function)
             
-            timex = str(string1)
-            # storing string for giving input 
-            
-            time_date = ""+datex+"   "+timex+" > "
-            # delete function of note 
 
             if(notes == "delete" ):
                 #conformation of deleteing function
@@ -211,7 +206,49 @@ while(True):
                         qwert = ""+c+"        "+a+"  "+b+""
                         print(qwert)           
                 else:
+                    datex = str(string)
+                    # stored timex (time function)
+                    
+                    timex = str(string1)
+                    # storing string for giving input 
+                    
+                    time_date = ""+datex+"   "+timex+" > "
+                    # delete function of note 
+                    # creating a date in string using mysql quarry for practice
+                    mycur.execute('select  day(now()),month(now()),year(now())')
+                    q = mycur.fetchall()
+                    # stored all result in q
 
+                    # extracting date month and year
+                    i1 = q[0][0]
+                    i2 = q[0][1]
+                    i3 = q[0][2]
+
+                    # convering all in string
+                    a = str(i1)
+                    b = str(i2)
+                    c = str(i3)
+
+                    # merged string  for date
+                    string = ""+a+"/"+b+"/"+c+""
+
+                    # creating time function using mysql quarry
+                    mycur.execute('select hour(now()),minute(now()),second(now())')
+                    x = mycur.fetchall()
+                    # stored result in x 
+
+                    # extracting housr minute and second
+                    o1 = x[0][0]
+                    o2 = x[0][1]
+                    o3 = x[0][2]
+
+                    # converting string from data
+                    q1 = str(o1)
+                    q2 = str(o2)
+                    q3 = str(o3)
+
+                    # merged string for time 
+                    string1 = ""+q1+":"+q2+":"+q3+""
                     # insert quarry
                     insert_into = 'insert into chat_base(time,note,up_date_status) value(%s,%s,"Orignal")'
                     val = [time_date,notes]
@@ -241,4 +278,4 @@ while(True):
         #delay
         time.sleep(0.25)
         #table craeted success mag
-        print("Chat created successfully")
+        print("Access Granted to store Notes ")
