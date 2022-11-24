@@ -61,15 +61,8 @@ string1 = ""+q1+":"+q2+":"+q3+""
 
 #  all exicute function for for loop
 # extracting all sr no 
-mycur.execute('select sr_no from chat_base')
-sr_no_all = mycur.fetchall()
-                        # dtored sr no 
-                        #extracting all notes  
-mycur.execute('select note from chat_base')
-note_fetch_all = mycur.fetchall()
-                        # stored all notes 
-mycur.execute('select time from chat_base')
-TIME_INPUT = mycur.fetchall()
+
+
 
 while(True):
     # collecting all databases
@@ -125,6 +118,16 @@ while(True):
             elif(notes != "exit"):
                 # printing notes
                 if(notes == "show"):
+                    mycur.execute('select sr_no from chat_base')
+                    sr_no_all = mycur.fetchall()
+                                            # dtored sr no 
+                                            #extracting all notes  
+                    mycur.execute('select note from chat_base')
+                    note_fetch_all = mycur.fetchall()
+                                            # stored all notes 
+                    mycur.execute('select time from chat_base')
+                    TIME_INPUT = mycur.fetchall()
+
                     # extrexting recorded time of notes 
                     
                     # stored as time_input in lsit 
@@ -187,22 +190,26 @@ while(True):
 
                 #inpput is given and stored in database
                 elif(notes == "report"):
-                    starting_date = input("Enter starting date : ")
-                    ending_date = input("Ending date : ")
-                    print('........Report ......')
-                    print("")
-                    # lakhu chu user input thi data reportprint 
-                    print("Enter the ")
-                    print('sr no    Date time                 note    ')
+                    starting_date = input("Enter date : ")
                     for i in range(0,length):
+                        mycur.execute('select sr_no from chat_base where time like "%'+starting_date+'%"')
+                        abc  = mycur.fetchall()
+                                                # dtored sr no 
+                                                #extracting all notes  
+                        mycur.execute('select note from chat_base where time like "%'+starting_date+'%"')
+                        poi = mycur.fetchall()
+                                                # stored all notes 
+                        mycur.execute('select time from chat_base where time like "%'+starting_date+'%"')
+                        sdf = mycur.fetchall()
+
+
                         # variableise all using i from for loop
-                        c = str(sr_no_all[i][0])
-                        a = TIME_INPUT[i][0]
-                        b = note_fetch_all[i][0]
+                        c = str(abc [i][0])
+                        a = sdf[i][0]
+                        b = poi[i][0]
                         # funis a variable displaying the records 
-                        report = ""+c+"        "+a+"  "+b+""
-                        print(report)
-                    
+                        qwert = ""+c+"        "+a+"  "+b+""
+                        print(qwert)           
                 else:
 
                     # insert quarry
