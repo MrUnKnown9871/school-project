@@ -2,7 +2,7 @@ import mysql.connector
 import time 
 
 
-mydb = mysql.connector.connect(host='localhost',user='root',passwd="root")
+mydb = mysql.connector.connect(host='localhost',user='root',passwd="Root")
 mycur = mydb.cursor()
 
 
@@ -18,7 +18,6 @@ if(len(mycur.fetchall())==0):
     mycur.execute("insert into userMaster value('Mishra','123456')")
 
 mycur.execute('create table if not exists chat_base(sr_no int primary key auto_increment, time varchar(100),note varchar(8000),up_date_status varchar (10), user varchar(50))')
-
 
 user_id = input('Enter the User Id : ')
 passwd = input('Enter the Password : ')
@@ -80,20 +79,31 @@ if(len(mycur.fetchall())>0):
             elif(notes == "history"):
                 mycur.execute('select * from chat_base')
                 storage = mycur.fetchall()
+                length1 = len(storage)    
+
+                if length1==0 :
+                    print("No Notes found....")
+                    continue
 
                 for i in range(len(storage)):  
                             print(storage[i])
 
             elif(notes == "update"):
-                print('Welcome to update section')
+                mycur.execute('select * from chat_base')
+                temp = mycur.fetchall()
+                if len(temp)==0:
+                    print("No Notes found....")
+                    
+                else:
+                    print('Welcome to update section')
 
-                user_inp = input("Enter the sr no : ")
-                new_note = input ("Enter the new note ")
+                    user_inp = input("Enter the sr no : ")
+                    new_note = input ("Enter the new note ")
 
-                mycur.execute('update chat_base set up_date_status="Edited",note ="'+new_note+'" where sr_no= "'+user_inp+'"')
-                mydb.commit()
+                    mycur.execute('update chat_base set up_date_status="Edited",note ="'+new_note+'" where sr_no= "'+user_inp+'"')
+                    mydb.commit()
 
-                print('Notes are updated if the given sr no is valid ')
+                    print('Notes are updated if the given sr no is valid ')
 
             elif(notes == "report"):
                 d_t = input('Enter the Time or Date : ')
